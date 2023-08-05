@@ -21,6 +21,7 @@ data = backtrader.feeds.YahooFinanceCSVData(
 
 cerebro.adddata(data)
 cerebro.addstrategy(TestStrategy)
+cerebro.addsizer(backtrader.sizers.FixedSize, stake=100)
 cerebro.broker.set_cash(100)
 print("Starting Portfolio Value: {:.2f}".format(cerebro.broker.getvalue()))
 cerebro.run()
