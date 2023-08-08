@@ -1,4 +1,5 @@
 config.py
+*.txt
 *.csv
 __pycache__/
 node_modules/
