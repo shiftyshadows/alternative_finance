@@ -1,22 +1,37 @@
 <html>
 	<head>
 		<title>Coinview</title>
-
+		<script src="/home/purple_quasar/ALT_Finance/0x01-binance_api_00/node_modules/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 	</head>
 	<body>
 		<h2>Trades</h2>
-
+		<div id="chart"></div>
 		<div id="trades"></div>
-
+		<h3>Settings</h3>
+		<div id="settings"></div>
+			<label>RSI</label>
+			<div>
+				<input type="checkbox" />
+				Length
+				<input type="text" id="rsi_length" name="rsi_length" placeholder="14" />
+				Oversold
+				<input type="text" id="rsi_oversold" name="rsi_oversold" placeholder="30" />
+				Overbought
+				<input type="text" id="rsi_overbought" name="rsi_overbouhgt" placeholder="70" />
+			</div>			
 		<script>
-		var binancesocket = new WebSocket("wss://stream.binance.com:443/ws/btcusdt@kline_1h");
+			//var binancesocket = new WebSocket("wss://stream.binance.com:443/ws/btcusdt@kline_1h");
+			var tradeDiv = document.getElementById('trades')
+			/*
+			binancesocket.onmessage = function(event) {
+				console.log(event.data);
 
-		var tradeDiv = document.getElementById('trades')
-		binancesocket.onmessage = function(event) {
-			console.log(event.data);
-			var messageObject = JSON.parse(event.data)
-			tradeDiv.append(messageObject.k.c)
-		}
+				var messageObject = JSON.parse(event.data)
+
+				tradeDiv.append(messageObject.k.c)
+			}
+			*/
 		</script>
+		<script src="chart.js"></script>
 	</body>
 </html>
