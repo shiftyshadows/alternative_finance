@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, jsonify
+from flask_cors import CORS
 import config
 import csv
 from binance import Client
@@ -9,6 +10,8 @@ client = Client(config.API_KEY, config.API_SECRET)
 
 app = Flask(__name__)
 app.secret_key = b'1+Y\UGs76?"2t@23$'
+
+CORS(app)
 
 @app.route('/')
 def index():
@@ -37,6 +40,22 @@ def buy():
     except Exception as e:
         flash(e.message, "Error")
     return redirect('/')
+
+@app.route('/history')
+def history():
+    candles = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_5MINUTE, "19th Aug, 2023", "1st Sep, 2023")
+    processed_candles =[]
+    for data in candles:
+        candle = {
+            "time": data[0] / 1000,
+            "open": data[1],
+            "high": data[2],
+            "close": data[4],
+            "low": data[3]
+        }
+
+        processed_candles.append(candle)
+    return jsonify(processed_candles)
 
 if __name__ == '__main__':
     app.run()
